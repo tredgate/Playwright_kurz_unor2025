@@ -1,4 +1,5 @@
 import { test } from "@playwright/test";
+import { testData } from "../../data/test_data";
 
 test("Otevři projekty v PMTool", async ({ page }) => {
   await page.goto("https://tredgate.com/pmtool/");

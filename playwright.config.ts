@@ -18,19 +18,29 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: [["html"], ["line"]],
+  timeout: 60 * 1000,
+  globalTimeout: 1 * 60 * 60 * 1000, // rozpadnutí hodnoty: 3600000 na 1 (hodina) * 60 minut * 60 sekund * 1000 ms
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: "on",
     ignoreHTTPSErrors: true,
+    actionTimeout: 15 * 1000,
+    navigationTimeout: 60 * 1000,
+    baseURL: "https://tredgate.com/pmtool",
+    screenshot: "on",
+    video: "on",
+  },
+  expect: {
+    timeout: 20 * 1000,
   },
 
   /* Configure projects for major browsers */
@@ -40,6 +50,13 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
 
+    // {
+    //   name: "TEST_chromium",
+    //   use: {
+    //     ...devices["Desktop Chrome HiDPI"],
+    //     baseURL: "https://test.tredgate.com/pmtool",
+    //   },
+    // },
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
@@ -50,24 +67,24 @@ export default defineConfig({
       use: { ...devices["Desktop Safari"] },
     },
 
-    /* Test against mobile viewports. */
+    // /* Test against mobile viewports. */
     // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
+    //   name: "Mobile Chrome",
+    //   use: { ...devices["Pixel 5"] },
     // },
     // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
+    //   name: "Mobile Safari",
+    //   use: { ...devices["iPhone 12"] },
     // },
 
-    /* Test against branded browsers. */
+    // /* Test against branded browsers. */
     // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    //   name: "Microsoft Edge",
+    //   use: { ...devices["Desktop Edge"], channel: "msedge" },
     // },
     // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    //   name: "Google Chrome",
+    //   use: { ...devices["Desktop Chrome"], channel: "chrome" },
     // },
   ],
 

@@ -44,7 +44,7 @@ test("toBeDisabled test", async ({ page }) => {
   await expect(page.locator("#occupation")).toBeDisabled();
 });
 
-test.skip("Soft assert test", async ({ page }) => {
+test("Soft assert test", async ({ page }) => {
   await page.goto("http://tredgate.com/pmtool/");
   await expect.soft(page.locator(".form-title")).toHaveText("Login PMTOOL"); // špatně, padá
   await page.locator("#username").fill("pw_skoleni");

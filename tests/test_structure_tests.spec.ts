@@ -1,5 +1,6 @@
 //test_structure_tests.spec.ts
 import { test, expect } from "@playwright/test";
+import { testData } from "../data/test_data";
 
 test.describe("Testovací sada", () => {
   test.beforeEach(async ({ page }) => {
@@ -7,8 +8,8 @@ test.describe("Testovací sada", () => {
   });
 
   test("PMTool login", async ({ page }) => {
-    await page.locator("#username").fill("pw_skoleni");
-    await page.locator("#password").fill("TEG2023");
+    await page.locator("#username").fill(testData.pmtool.username);
+    await page.locator("#password").fill(testData.pmtool.password);
     await page.locator("//button[@type='submit']").click();
     await expect(page.locator("//h3[@id='welcome-page-header']")).toBeVisible();
   });
